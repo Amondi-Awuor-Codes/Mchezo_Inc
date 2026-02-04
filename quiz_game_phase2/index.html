@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detective Ethics Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="quiz-game.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <!-- Header -->
+        <h1 class="quiz-title">Detective Ethics Quiz</h1>
+        <p class="quiz-subtitle">Let's remind you of your ethics, detective</p>
+        
+        <!-- Progress Bar -->
+        <div class="quiz-progress-container">
+            <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="progressFill"></div>
+            </div>
+            <div class="quiz-progress-text" id="progressText">Question 1 of 5</div>
+        </div>
+
+        <!-- Dynamic Question Block (JavaScript controls content) -->
+        <div class="quiz-question-block" id="questionBlock">
+            <div class="quiz-question-number" id="questionNumber">Question 1 of 5</div>
+            <div class="quiz-question" id="questionText">
+                Loading question...
+            </div>
+            <div class="quiz-answers" id="answersContainer">
+                <!-- Answers will be injected by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Navigation Button -->
+        <button class="quiz-next-btn" id="nextBtn">Next Question</button>
+    </div>
+
+    <script src="quiz-game.js"></script>
+</body>
+</html>
