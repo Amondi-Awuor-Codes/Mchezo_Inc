@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIZA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <div id="fadeOverlay"></div>
+    <!-- Audio Elements - Background Music and Sound Effects -->
+    <!-- Background Music for Each Phase -->
+    <audio id="bgMusicPhaseI">
+        <source src="musicbox.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgMusicPhaseII">
+        <source src="spy.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgMusicPhaseIII">
+        <source src="spy2.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgMusicPhaseIV">
+        <source src="phaseIV.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgMusicPhaseV">
+        <source src="scary.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgMusicReveal">
+        <source src="gameover.mp3" type="audio/mpeg">
+    </audio>
+
+   <!-- Audio Elements - Sound Effects -->
+    <audio id="soundClick">
+        <source src="click.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundKnock">
+        <source src="knocking.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundTVOff">
+        <source src="tvoff.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundBreathing">
+        <source src="breathing.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundEnvelopePickup">
+        <source src="item-reveal.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundPaperRustle">
+        <source src="paper-slide.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundMoneyCount">
+        <source src="moneycount.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundDoorOpen">
+        <source src="dooropen.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundCarEngine">
+        <source src="carengine.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundCarDoor">
+        <source src="doorclose.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundStruggle">
+        <source src="struggle.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundBagOverHead">
+        <source src="bagoverhead.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundIntercom">
+        <source src="intercom.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundTileFlip">
+        <source src="flip.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundTileMatch">
+        <source src="correct.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundTileFail">
+        <source src="wrong.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundTimerWarning">
+        <source src="warning.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundQuizCorrect">
+        <source src="correct.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundQuizWrong">
+        <source src="wrong.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundDoorUnlock">
+        <source src="doorcreak.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundPuzzleComplete">
+        <source src="gameover.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundAmbience">
+        <source src="ambience.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundHeartbeat">
+        <source src="heartbeat.mp3" type="audio/mpeg">
+    </audio>
+    <!-- Audio for ai-->
+    <audio id="aiAudio">
+        <source src="ai.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="game-container">
+        
+
+        <!-- Detective's Toolbox -->
+        <div class="toolbox" id="toolbox">
+            <div class="toolbox-toggle" onclick="toggleToolbox()">
+                <img src="toolbox.png" alt="Toolbox" class="toolbox-icon-img">
+            </div>
+            <div class="toolbox-panel">
+                <h3 class="toolbox-title">EVIDENCE</h3>
+                <div class="toolbox-item" id="bagItem" onclick="viewToolboxItem('bag')">
+                    <img src="bag.png" alt="Evidence Bag" class="toolbox-item-img">
+                    <h4>Evidence Bag</h4>
+                    <p>Puzzle pieces: <span id="puzzleCount">0</span>/4</p>
+                </div>
+                <div class="toolbox-item" id="photoItem" onclick="viewToolboxItem('photo')">
+                    <img src="missing-girl.png" alt="Missing Girl" class="toolbox-item-img">
+                    <h4>Missing Girl Photo</h4>
+                    <p>Akinyi Odhiambo, Age 12</p>
+                </div>
+                <div class="toolbox-item" id="passportToolbox" onclick="viewToolboxItem('passport')" style="display: none;">
+                    <img src="" alt="Passport" class="toolbox-item-img" id="passportToolboxImg">
+                    <h4>Your Passport</h4>
+                    <p id="passportToolboxName">Detective</p>
+                </div>
+                <div class="toolbox-item" id="assignmentToolbox" onclick="viewToolboxItem('assignment')" style="display: none;">
+                    <img src="assignment.png" alt="Assignment" class="toolbox-item-img">
+                    <h4>Assignment Brief</h4>
+                    <p>Locate Akinyi Odhiambo</p>
+                </div>
+                <div class="toolbox-item" id="moneyToolbox" onclick="viewToolboxItem('money')" style="display: none;">
+                    <img src="money.png" alt="Money" class="toolbox-item-img">
+                    <h4>Cash Payment</h4>
+                    <p>KSH 500,000</p>
+                </div>
+                <div class="toolbox-item toolbox-tool" id="screwdriverToolbox" onclick="useScrewdriver()" style="display: none;">
+                    <img src="screwdriver.png" alt="Screwdriver" class="toolbox-item-img">
+                    <h4>Screwdriver</h4>
+                    <p>Click to use</p>
+                </div>
+                <div class="toolbox-item" id="roomsItem">
+                    <h4>Rooms Conquered</h4>
+                    <div id="roomProgress">
+                        <div class="room-status">Room I: <span id="room1Status">☐</span></div>
+                        <div class="room-status">Room II: <span id="room2Status">☐</span></div>
+                        <div class="room-status">Room III: <span id="room3Status">☐</span></div>
+                        <div class="room-status">Room IV: <span id="room4Status">☐</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evidence Bag Overlay (rendered when player clicks Evidence Bag) -->
+        <div class="bag-overlay" id="bagOverlay" style="display:none">
+            <div class="bag-content">
+                <button class="close-bag" onclick="closeBagOverlay()">✕</button>
+                <h3>Evidence Bag</h3>
+                <div class="bag-grid" id="bagGrid">
+                    <!-- filled by game.js -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Dialogue Box with Detective Icon -->
+        <div class="dialogue-box" id="dialogueBox">
+            <img src="" alt="Detective" class="dialogue-detective-icon" id="dialogueDetectiveIcon">
+            <div class="dialogue-text" id="dialogueText"></div>
+        </div>
+
+        <!-- Text Message Container -->
+        <div class="text-message-container" id="textMessageContainer">
+            <div class="text-messages" id="textMessages"></div>
+        </div>
+
+        <!-- Character Selection Screen -->
+        <div class="phase-screen active char-selection" id="charSelection">
+            <h1 class="title">GIZA</h1>
+            <p class="subtitle">An interactive story</p>
+            
+            <div class="character-options">
+                <div class="character-card" data-gender="man" onclick="selectCharacter('man', event)">
+                    <img src="man.jpg" alt="Man" class="character-image">
+                    <div class="character-label">Man</div>
+                </div>
+                
+                <div class="character-card" data-gender="woman" onclick="selectCharacter('woman', event)">
+                    <img src="woman.jpg" alt="Woman" class="character-image">
+                    <div class="character-label">Woman</div>
+                </div>
+                
+                <div class="character-card" data-gender="unknown" onclick="selectCharacter('unknown', event)">
+                    <img src="unknown.jpg" alt="Unknown" class="character-image">
+                    <div class="character-label">Unknown</div>
+                </div>
+            </div>
+
+            <div class="name-input-container" id="nameInputContainer">
+                <input type="text" class="name-input" id="nameInput" placeholder="ENTER DETECTIVE NAME" maxlength="20">
+                <br>
+                <button class="btn-primary" id="confirmNameBtn" onclick="confirmName()" disabled>BEGIN CASE</button>
+            </div>
+        </div>
+
+        <!-- Rules & Orientation Overlay -->
+        <div class="rules-overlay" id="rulesOverlay">
+            <div class="rules-content">
+                <h2>RULES & ORIENTATION</h2>
+                
+                <h3>Who You Are</h3>
+                <p>A disgraced investigator with a history of public failures. The media has torn you apart. Your reputation is in ruins. But someone still believes you're the one to find her.</p>
+
+                <h3>Your Mission</h3>
+                <p>Locate Akinyi Odhiambo, a missing 12-year-old girl from Kibera whose disappearance is tied to a larger, hidden system. You've been given evidence, money, and one last chance.</p>
+
+                <h3>How to Play</h3>
+                <ul>
+                    <li>Click to interact when prompted</li>
+                    <li>Some scenes play automatically</li>
+                    <li>Read all dialogue carefully—clues are everywhere</li>
+                    <li>Your choices matter</li>
+                    <li>Collect evidence in your toolbox</li>
+                    <li>Pay attention to details in images and videos</li>
+                </ul>
+
+                <h3>The Rooms</h3>
+                <p>You will face four challenges, each testing a different skill:</p>
+                <ul>
+                    <li><strong>Room I: Memory Room</strong> - Match pairs to remember what matters.</li>
+                    <li><strong>Room II: Quiz Room</strong> - Answer ethical dilemmas about detective work.</li>
+                    <li><strong>Room III: Escape Room</strong> - Observe your surroundings and find the way out.</li>
+                    <li><strong>Room IV: The Reveal</strong> - Assemble the puzzle pieces to find Akinyi's location.</li>
+                </ul>
+
+                <h3>Important Clues</h3>
+                <ul>
+                    <li>Akinyi was last seen near Gikomba Market at 3:47 PM</li>
+                    <li>Witnesses reported a black matatu with tinted windows</li>
+                    <li>Her bag was found near an abandoned warehouse in Industrial Area</li>
+                    <li>Security footage shows her leaving Ushirika Primary School</li>
+                    <li>She was wearing a red jacket and carrying a blue backpack</li>
+                    <li>The assignment mentions "Dandora Dump Incident" - your past failure</li>
+                </ul>
+
+                <h3>Time Pressure</h3>
+                <p>Every room is timed. Time creates tension, but failure is not instant. Pressure reveals character.</p>
+
+                <br>
+                <button class="btn-primary" onclick="closeRules()">I UNDERSTAND</button>
+            </div>
+        </div>
+
+        <!-- Phase I - The Call to Action -->
+        <div class="phase-screen phase-call" id="phaseCall">
+            <div class="video-container">
+                <video id="detectiveHouseVideo" class="fullscreen-video" muted>
+                    <source src="room4.mp4" type="video/mp4">
+                </video>
+                
+                <!-- News Anchor Audio -->
+                <audio id="newsAnchorAudio">
+                    <source src="newsanchorm.mp3" type="audio/mpeg">
+                </audio>
+                
+                <!-- News Anchor Box (Top Right) -->
+                <div class="news-anchor-box">
+                    <img src="newsanchor2.jpg" alt="News Anchor" class="news-anchor-image">
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span class="live-text">LIVE</span>
+                    </div>
+                </div>
+
+                <!-- News Headlines (Left Side) -->
+                <div class="news-headlines" id="newsHeadlines">
+                    <div class="headline">
+                        <div class="headline-title">DETECTIVE FAILS TO SOLVE MISSING PERSONS CASE</div>
+                        <div class="headline-desc">Three Nairobi families still await justice as investigator fumbles key evidence.</div>
+                    </div>
+                    <div class="headline">
+                        <div class="headline-title">ANOTHER BOTCHED INVESTIGATION ENDS IN TRAGEDY</div>
+                        <div class="headline-desc">Kibera community demands accountability after young victim found deceased.</div>
+                    </div>
+                    <div class="headline">
+                        <div class="headline-title">PUBLIC DEMANDS DETECTIVE'S RESIGNATION</div>
+                        <div class="headline-desc">Citizens gather at City Hall calling for removal of incompetent investigator.</div>
+                    </div>
+                    <div class="headline">
+                        <div class="headline-title">VICTIMS' FAMILIES: "WE DESERVE BETTER"</div>
+                        <div class="headline-desc">Emotional press conference reveals deep frustration with ongoing failures.</div>
+                    </div>
+                    <div class="headline">
+                        <div class="headline-title">DETECTIVE'S CREDIBILITY QUESTIONED AGAIN</div>
+                        <div class="headline-desc">Law enforcement colleagues express doubt over handling of recent cases.</div>
+                    </div>
+                    <div class="headline">
+                        <div class="headline-title">DANDORA DUMP INCIDENT STILL UNDER INVESTIGATION</div>
+                        <div class="headline-desc">Controversial decision that cost witness life remains unresolved two years later.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Black Screen (TV Off) -->
+        <div class="phase-screen" id="blackScreen">
+            <div class="video-container" style="background: #000000;">
+                <!-- Intentionally black -->
+            </div>
+        </div>
+
+        <!-- Knock Scene -->
+        <div class="phase-screen" id="knockScene">
+            <div class="video-container" onclick="openDoor()" style="cursor: pointer;">
+                <img src="door.png" alt="Door" class="fullscreen-image">
+                <div class="clickable-door" id="clickableDoor">
+                    <p id="clickDoorHint" style="display: none;">Click the door</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Envelope Scene -->
+        <div class="phase-screen" id="envelopeScene">
+            <div class="video-container" onclick="pickupEnvelope()" style="cursor: pointer;">
+                <img src="envelope_door.png" alt="Yellow Envelope" class="fullscreen-image">
+                <div class="clickable-envelope" id="clickableEnvelope">
+                    <p style="display: none;">Click the envelope</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evidence Table Scene -->
+        <div class="phase-screen" id="evidenceScene">
+            <div class="evidence-table-background">
+                <div class="evidence-table">
+                    <div class="evidence-items-small">
+                        <div class="evidence-item" data-evidence="girl" onclick="inspectEvidence('girl')">
+                            <img src="missing-girl.png" alt="Missing Girl Photo" class="evidence-item-img">
+                            <div class="evidence-label">Missing Girl Photo</div>
+                        </div>
+                        <div class="evidence-item" data-evidence="passport" onclick="inspectEvidence('passport')">
+                            <img src="passport.png" alt="Passport" class="evidence-item-img">
+                            <div class="evidence-label">Your Passport</div>
+                        </div>
+                        <div class="evidence-item" data-evidence="assignment" onclick="inspectEvidence('assignment')">
+                            <img src="assignment.png" alt="Assignment" class="evidence-item-img">
+                            <div class="evidence-label">Assignment Brief</div>
+                        </div>
+                        <div class="evidence-item" data-evidence="money" onclick="inspectEvidence('money')">
+                            <img src="money.png" alt="Money" class="evidence-item-img">
+                            <div class="evidence-label">Cash Payment</div>
+                        </div>
+                    </div>
+                    <div class="evidence-detail" onclick="closeEvidenceDetail()">
+                                                <!-- Hint removed as per user request -->
+                        <div class="inspection-panel" id="girlPanel" onclick="event.stopPropagation()">
+                            <img src="missing-girl.png" alt="Missing Girl" class="inspection-image">
+                            <div class="inspection-text">
+                                <h3>Akinyi Odhiambo</h3>
+                                <p><strong>Age:</strong> 12 years old</p>
+                                <p><strong>Last Seen:</strong> 3 days ago, leaving Ushirika Primary School at 3:47 PM</p>
+                                <p><strong>Wearing:</strong> Red jacket, blue backpack</p>
+                                <p><strong>Location:</strong> Near Gikomba Market</p>
+                                <p><strong>Evidence Found:</strong> Backpack discovered near Industrial Area warehouse</p>
+                                <p class="clue-text">⚠️ CLUE: Witnesses mention yellow paint markings near the scene</p>
+                            </div>
+                        </div>
+                        <div class="inspection-panel" id="passportPanel" onclick="event.stopPropagation()">
+                            <img src="" alt="Passport" class="inspection-image" id="passportInspectionImg">
+                            <div class="inspection-text">
+                                <h3>Republic of Kenya Passport</h3>
+                                <p><strong>Full Name:</strong> <span id="passportName">Detective</span></p>
+                                <p><strong>Date of Birth:</strong> <span id="passportDOB">01/01/1990</span></p>
+                                <p><strong>Nationality:</strong> Kenyan</p>
+                                <p><strong>Gender:</strong> <span id="passportGender">-</span></p>
+                                <p class="clue-text">⚠️ CLUE: Someone wants you far from Nairobi for this case</p>
+                            </div>
+                        </div>
+                        <div class="inspection-panel" id="assignmentPanel" onclick="event.stopPropagation()">
+                            <img src="assignment.png" alt="Assignment" class="inspection-image">
+                            <div class="inspection-text">
+                                <h3>Assignment Brief</h3>
+                                <p><strong>Objective:</strong> Locate Akinyi Odhiambo</p>
+                                <p><strong>Timeframe:</strong> Immediate</p>
+                                <p><strong>Location:</strong> Industrial Area, Nairobi</p>
+                                <p><strong>Handler:</strong> Anonymous</p>
+                                <p><strong>Authority:</strong> Full discretion granted</p>
+                                <p><strong>Note:</strong> "Find her. Learn from Dandora. Don't fail again."</p>
+                                <p class="clue-text">⚠️ CLUE: Dandora Dump Incident - your past failure haunts this case</p>
+                            </div>
+                        </div>
+                        <div class="inspection-panel" id="moneyPanel" onclick="event.stopPropagation()">
+                            <img src="money.png" alt="Money" class="inspection-image">
+                            <div class="inspection-text">
+                                <h3>Cash Payment</h3>
+                                <p><strong>Amount:</strong> KSH 500,000</p>
+                                <p><strong>Type:</strong> Unmarked bills</p>
+                                <p><strong>Purpose:</strong> Case expenses and compensation</p>
+                                <p><strong>Serial Numbers:</strong> Non-sequential</p>
+                                <p class="clue-text">⚠️ CLUE: This much cash up front means either complete trust... or complete desperation</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inspection-actions" style="display: flex; justify-content: center; gap: 16px; margin-top: 32px; margin-bottom: 0;">
+                        <button class="choice-btn" id="acceptCaseBtn" onclick="acceptCase()">TAKE CASE</button>                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="choice-container" id="evidenceChoice">
+                <!-- Buttons moved to inspection area -->
+            </div>
+        </div>
+
+        <!-- Phase II - Airport Transit -->
+        <div class="phase-screen" id="airportScene">
+            <div class="video-container">
+                <video id="airportVideo" class="fullscreen-video" muted>
+                    <source src="airport.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- Stranger Tap Scene -->
+        <div class="phase-screen" id="strangerScene">
+            <div class="video-container">
+                <img src="tap-back.png" alt="Stranger" class="fullscreen-image">
+            </div>
+        </div>
+
+        <!-- Taxi Scene -->
+        <div class="phase-screen" id="taxiScene">
+            <div class="video-container">
+                <video id="taxiVideo" class="fullscreen-video" muted>
+                    <source src="taxi-departure.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- Abduction Scene -->
+        <div class="phase-screen" id="abductionScene">
+            <div class="video-container">
+                <video id="abductionVideo" class="fullscreen-video" muted>
+                    <source src="taxi2.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- Wake Up Scene -->
+        <div class="phase-screen" id="wakeUpScene">
+            <div class="video-container">
+                <video id="wakeUpVideo" class="fullscreen-video" muted>
+                    <source src="wake-up.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- Grey Room Scene -->
+        <div class="phase-screen" id="greyRoomScene">
+            <div class="video-container">
+                <img src="grey-room.png" alt="Grey Room" class="fullscreen-image">
+                <div class="robot-intercom-icon" id="robotIntercomIcon" style="display:none;">
+                    <img src="ai.jpg" alt="Robot Intercom" class="robot-icon-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase III - Memory Room -->
+        <div class="phase-screen memory-room" id="memoryRoom">
+            <div class="timer-display" id="memoryTimer">03:00</div>
+            <div class="memory-grid" id="memoryGrid">
+                <!-- Tiles will be generated by JavaScript -->
+            </div>
+            <div class="memory-info">
+                <p>Matches: <span id="matchCount">0</span>/12</p>
+                <p>Moves: <span id="movesCount">0</span></p>
+                <p>Failures: <span id="failureCount">0</span>/5</p>
+            </div>
+            <div class="memory-controls">
+                <button class="btn-primary memory-restart-btn" onclick="restartMemoryGame()">Restart Memory Game</button>
+            </div>
+            
+            <!-- Congratulations Overlay -->
+            <div class="congratulations-overlay" id="congratsOverlay">
+                <div class="congrats-content">
+                    <h2>🎉 CONGRATULATIONS! 🎉</h2>
+                    <p class="congrats-message">You've matched all pairs!</p>
+                    <div class="final-stats">
+                        <p><strong>Time:</strong> <span id="finalTime">0:00</span></p>
+                        <p><strong>Moves:</strong> <span id="finalMoves">0</span></p>
+                        <p><strong>Performance:</strong> <span id="performance">Excellent!</span></p>
+                    </div>
+                    <p class="congrats-continue">Proceeding to next challenge...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase IV - Quiz Room -->
+        <div class="phase-screen quiz-room" id="quizRoom">
+            <div class="quiz-container">
+                <!-- Header -->
+                <h1 class="quiz-title">Detective Ethics</h1>
+                <p class="quiz-subtitle">Let's remind you of your ethics, detective</p>
+                
+                <!-- Progress Bar -->
+                <div class="quiz-progress-container">
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="quiz-progress-text" id="progressText">Question 1 of 5</div>
+                </div>
+
+                <!-- Dynamic Question Block (JavaScript controls content) -->
+                <div class="quiz-question-block" id="questionBlock">
+                    <div class="quiz-question-number" id="questionNumber">Question 1 of 5</div>
+                    <div class="quiz-question" id="questionText">
+                        Are you ready to face your demons detective?
+                    </div>
+                    <div class="quiz-answers" id="answersContainer">
+                        <!-- Answers will be injected by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Navigation Button -->
+                <button class="quiz-next-btn" id="nextBtn" onclick="nextQuestion()">BEGIN INTERROGATION</button>
+            </div>
+        </div>
+
+    
+        <!-- Phase V - Escape Room -->
+        <div class="phase-screen escape-room" id="escapeRoom">
+            <div class="timer-display" id="escapeTimer">05:00</div>
+            <div class="room-view">
+                <img src="escape-room.png" alt="Escape Room" class="fullscreen-image">
+                
+                <div class="room-zone zone-panel-control" id="zonePanel" onclick="interactWithZone('panel')" style="top: 20%; left: 10%; width: 15%; height: 30%;">
+                    <div class="zone-hint">Control Panel</div>
+                </div>
+                
+                <div class="room-zone zone-table active-zone" id="zoneTable" onclick="interactWithZone('table')" style="top: 50%; left: 40%; width: 20%; height: 25%;">
+                    <div class="zone-hint">Table</div>
+                </div>
+                
+                <div class="room-zone zone-vent" id="zoneVent" onclick="interactWithZone('vent')" style="top: 10%; right: 15%; width: 15%; height: 15%;">
+                    <div class="zone-hint">Vent</div>
+                </div>
+                
+                <div class="room-zone zone-door" id="zoneDoor" onclick="interactWithZone('door')" style="top: 30%; right: 10%; width: 20%; height: 40%;">
+                    <div class="zone-hint">Locked Door</div>
+                </div>
+            </div>
+
+            <!-- Zone Detail Panels -->
+            <div class="zone-detail-panel" id="panelDetail">
+                <button class="close-zone" onclick="closeZoneDetail()">✕ CLOSE</button>
+                <img src="control-panel.png" alt="Control Panel" class="zone-image">
+                <div class="zone-description">
+                    <h3>Control Panel</h3>
+                    <p>Flickering numbers and symbols. Two sequences appear on the screen.</p>
+                    <p class="puzzle-piece-notice" id="panelPuzzleNotice" style="display: none;">🧩 You found a puzzle piece!</p>
+                    <p>Choose the correct code:</p>
+                    <div class="code-choice-container">
+                        <button class="code-choice-btn" onclick="chooseCode('547')">547</button>
+                        <button class="code-choice-btn" onclick="chooseCode('347')">347</button>
+                    </div>
+                    <p class="clue-text" id="panelClue" style="display: none;">⚠️ CLUE: Remember the time... 3:47</p>
+                    <button class="clue-btn" onclick="showClue('panelClue', this)">Show Clue</button>
+                </div>
+            </div>
+
+            <div class="zone-detail-panel" id="tableDetail">
+                <button class="close-zone" onclick="closeZoneDetail()">✕ CLOSE</button>
+                <img src="table-tools.png" alt="Table" class="zone-image">
+                <div class="zone-description">
+                    <h3>Table with Tools</h3>
+                    <p class="detective-question">What do you see, Detective?</p>
+                    <p>Rusted tools scattered across the surface. A torn piece of paper reads "<strong>YELLOW</strong>".</p>
+                    <p class="clue-text" id="tableClue" style="display: none;">⚠️ CLUE: A screwdriver is lying on a blueprint showing vent locations.</p>
+                    <button class="clue-btn" onclick="showClue('tableClue', this)">Show Clue</button>
+                    <button class="zone-action-btn" onclick="takeTools()">Take Tools</button>
+                </div>
+            </div>
+
+            <div class="zone-detail-panel" id="ventDetail">
+                <button class="close-zone" onclick="closeZoneDetail()">✕ CLOSE</button>
+                <img src="vent.png" alt="Vent" class="zone-image">
+                <div class="zone-description">
+                    <h3>Air Vent</h3>
+                    <p>The grate is loose. Use the screwdriver from your toolbox.</p>
+                    <p class="puzzle-piece-notice" id="ventPuzzleNotice" style="display: none;">🧩 You found an incomplete puzzle piece!</p>
+                    <div id="ventRiddleSection" style="display: none;">
+                        <p class="riddle-text">🔍 Riddle: Something that rhymes with "console channel"...</p>
+                        <input type="text" id="ventRiddleAnswer" class="code-input" placeholder="Your answer">
+                        <button class="zone-action-btn" onclick="solveVentRiddle()">Submit Answer</button>
+                    </div>
+                    <p class="clue-text" id="ventClue" style="display: none;">⚠️ CLUE: Think about what you need to interact with next...</p>
+                    <button class="clue-btn" id="ventClueBtn" onclick="showClue('ventClue', this)">Show Clue</button>
+                </div>
+            </div>
+
+            <div class="zone-detail-panel" id="doorDetail">
+                <button class="close-zone" onclick="closeZoneDetail()">✕ CLOSE</button>
+                <img src="keypad.jpg" alt="Door Keypad" class="zone-image">
+                <div class="zone-description">
+                    <h3>Locked Door</h3>
+                    <p>A heavy metal door with a keypad. Red light glows above.</p>
+                    <p class="clue-text" id="doorClue" style="display: none;">⚠️ CLUE: The keypad requires a 3-digit code. Remember the time!</p>
+                    <button class="clue-btn" onclick="showClue('doorClue', this)">Show Clue</button>
+                    <input type="text" id="doorCode" class="code-input" maxlength="3" placeholder="Enter Code">
+                    <button class="zone-action-btn" onclick="tryDoorCode()">Unlock Door</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase VI - The Reveal -->
+        <div class="phase-screen reveal-screen" id="revealScreen">
+            <div class="reveal-content">
+                <div class="puzzle-assembly" id="puzzleAssembly">
+                    <h2>ASSEMBLING EVIDENCE...</h2>
+                    <p class="puzzle-instructions">Drag the scrambled pieces from the right grid to the left grid to reveal the location. Match all 12 pieces correctly to proceed.</p>
+                    
+                    <div class="puzzle-layout">
+                        <!-- LEFT: Assembly Grid (Target) -->
+                        <div class="puzzle-section puzzle-target">
+                            <h3>Assembly Board</h3>
+                            <div class="puzzle-board" id="puzzleBoard">
+                                <!-- slots generated by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- RIGHT: Scrambled Pieces Source -->
+                        <div class="puzzle-section puzzle-source">
+                            <h3>Scrambled Pieces</h3>
+                            <div class="puzzle-pieces-container" id="puzzlePiecesSource">
+                                <!-- pieces generated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="location-reveal" id="locationReveal" style="display: none;">
+                    <h2>WHERE IS AKINYI?</h2>
+                    <p class="location-question">Based on the evidence you've collected, select the location where Akinyi is being held.</p>
+                    
+                    <div class="location-choices" id="locationChoices">
+                        <div class="location-choice" data-location="wrong1" onclick="selectLocation('wrong1')">
+                            <img src="wrong1.png" alt="Downtown Office" class="choice-image">
+                            <span class="choice-label">Downtown Office Complex</span>
+                        </div>
+                        <div class="location-choice" data-location="wrong2" onclick="selectLocation('wrong2')">
+                            <img src="wrong2.png" alt="Residential Area" class="choice-image">
+                            <span class="choice-label">Residential Apartment</span>
+                        </div>
+                        <div class="location-choice correct" data-location="correct" onclick="selectLocation('correct')">
+                            <img src="final-location.png" alt="Industrial Warehouse" class="choice-image">
+                            <span class="choice-label">Yellow Industrial Warehouse</span>
+                        </div>
+                        <div class="location-choice" data-location="wrong3" onclick="selectLocation('wrong3')">
+                            <img src="wrong3.png" alt="Port Area" class="choice-image">
+                            <span class="choice-label">Port Storage Facility</span>
+                        </div>
+                    </div>
+                    
+                    <p class="location-hint" id="locationHint">Think about the clues... the yellow paint, the industrial setting, the warehouse mentioned in the notes.</p>
+                    
+                    <!-- Success reveal (hidden until correct choice) -->
+                    <div class="location-success" id="locationSuccess" style="display: none;">
+                        <h3>LOCATION CONFIRMED</h3>
+                        
+                        <!-- Case Brief Section -->
+                        <div class="case-brief">
+                            <h2 class="case-brief-title">📁 CASE BRIEF: AKINYI ODHIAMBO</h2>
+                            
+                            <div class="case-brief-content">
+                                <div class="case-images">
+                                    <div class="case-image-item">
+                                        <img src="missing-girl.png" alt="Akinyi Odhiambo" class="case-photo">
+                                        <span class="case-image-label">Victim Photo</span>
+                                    </div>
+                                    <div class="case-image-item">
+                                        <img src="puzzle-piece.png" alt="Location Map" class="case-photo map-photo">
+                                        <span class="case-image-label">Location Identified</span>
+                                    </div>
+                                    <div class="case-image-item">
+                                        <img src="final-location.png" alt="Warehouse" class="case-photo">
+                                        <span class="case-image-label">Target Building</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="case-details">
+                                    <div class="case-detail-row">
+                                        <span class="case-label">VICTIM:</span>
+                                        <span class="case-value">Akinyi Odhiambo</span>
+                                    </div>
+                                    <div class="case-detail-row">
+                                        <span class="case-label">AGE:</span>
+                                        <span class="case-value">12 years old</span>
+                                    </div>
+                                    <div class="case-detail-row">
+                                        <span class="case-label">DATE DISAPPEARED:</span>
+                                        <span class="case-value">3 days ago, 3:47 PM</span>
+                                    </div>
+                                    <div class="case-detail-row">
+                                        <span class="case-label">LAST SEEN:</span>
+                                        <span class="case-value">Leaving Ushirika Primary School, near Gikomba Market</span>
+                                    </div>
+                                    <div class="case-detail-row">
+                                        <span class="case-label">LOCATION FOUND:</span>
+                                        <span class="case-value highlight">Yellow Industrial Warehouse, Industrial Area, Nairobi</span>
+                                    </div>
+                                    <div class="case-detail-row">
+                                        <span class="case-label">DESCRIPTION:</span>
+                                        <span class="case-value">Red jacket, blue backpack</span>
+                                    </div>
+                                    
+                                    <div class="case-evidence-section">
+                                        <h4>📋 EVIDENCE COLLECTED:</h4>
+                                        <ul class="case-evidence-list">
+                                            <li>Missing person photo with last known appearance</li>
+                                            <li>Assignment brief mentioning Industrial Area</li>
+                                            <li>Witness reports of black matatu with tinted windows</li>
+                                            <li>Blue backpack found near warehouse</li>
+                                            <li>Yellow paint markings matching warehouse exterior</li>
+                                            <li>Security footage from Ushirika Primary School</li>
+                                            <li>Screwdriver and tools from holding room</li>
+                                            <li>Code 347 - time of disappearance (3:47 PM)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p class="case-status">STATUS: <span class="status-active">PROCEEDING TO LOCATION</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Scene -->
+        <div class="phase-screen" id="finalScene">
+            <div class="video-container">
+                <video id="finalVideo" class="fullscreen-video" muted>
+                    <source src="search.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- Empty Room Scene -->
+        <div class="phase-screen" id="emptyRoomScene">
+            <div class="video-container">
+                <img src="empty-room.png" alt="Empty Room" class="fullscreen-image">
+            </div>
+        </div>
+
+        <!-- The End -->
+        <div class="phase-screen reveal-screen" id="endScreen">
+            <div class="reveal-title">THE END?</div>
+            <div class="reveal-subtitle">Hold your horses alligators! I am still working here. Seriously though, I hope you had fun.</div>
+            <button class="btn-primary" onclick="restartGame()" id="playAgainBtn" style="margin-top: 40px; position: relative; z-index: 2;">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+    <script>
+    function endGame() {
+        // Hide all phase screens
+        document.querySelectorAll('.phase-screen').forEach(el => el.classList.remove('active'));
+        // Show the end screen
+        document.getElementById('endScreen').classList.add('active');
+    }
+    </script>
+</body>
+</html>
